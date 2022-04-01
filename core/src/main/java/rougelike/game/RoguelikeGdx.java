@@ -62,8 +62,7 @@ public class RoguelikeGdx extends ApplicationAdapter {
 		// GAME LOGIC
 		hero.update(control);
 
-		camera.position.x = hero.pos.x;
-		camera.position.y = hero.pos.y;
+		camera.position.lerp(hero.pos3, .1f);
 		camera.update();
 
 		// GAME DRAW
