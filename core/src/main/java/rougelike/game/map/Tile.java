@@ -2,7 +2,7 @@ package rougelike.game.map;
 
 import com.badlogic.gdx.graphics.Texture;
 import rougelike.game.Entity;
-import rougelike.game.Enums;
+import rougelike.game.Enums.*;
 
 public class Tile extends Entity {
     public int size;
@@ -11,9 +11,9 @@ public class Tile extends Entity {
     public String code;
     public Texture secondary_texture;
     public Texture texture;
-    public Enums.TILETYPE type;
+    public TILE_TYPE type;
 
-    public Tile(float x, float y, int size, Enums.TILETYPE type, Texture texture) {
+    public Tile(float x, float y, int size, TILE_TYPE type, Texture texture) {
         super();// calls Entity class
         pos.x = x*size;
         pos.y = y*size;
@@ -39,15 +39,15 @@ public class Tile extends Entity {
     }
 
     public boolean is_grass() {
-        return type == Enums.TILETYPE.GRASS;
+        return type == TILE_TYPE.GRASS;
     }
 
     public boolean is_water() {
-        return type == Enums.TILETYPE.WATER;
+        return type == TILE_TYPE.WATER;
     }
 
     public boolean is_cliff() {
-        return type == Enums.TILETYPE.CLIFF;
+        return type == TILE_TYPE.CLIFF;
     }
 
     public boolean is_passable() {

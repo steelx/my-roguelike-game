@@ -87,16 +87,16 @@ public class Island {
         for(int row = 0; row < chunk.number_rows; row ++){
             for(int col = 0; col < chunk.number_cols; col ++){
                 // Create TILE
-                Tile tile = new Tile(col, row, chunk.tile_size, Enums.TILETYPE.WATER, random_water());
+                Tile tile = new Tile(col, row, chunk.tile_size, Enums.TILE_TYPE.WATER, random_water());
 
                 // Make a small island
                 if(row > min_row && row < max_row && col > min_col && col < max_col){
                     tile.texture = random_grass();
-                    tile.type = Enums.TILETYPE.GRASS;
+                    tile.type = Enums.TILE_TYPE.GRASS;
 
                     if(row == first_tile_row + 1){
                         tile.texture = Media.cliff;
-                        tile.type = Enums.TILETYPE.CLIFF;
+                        tile.type = Enums.TILE_TYPE.CLIFF;
                     } else {
                         // Chance to add trees etc
                     }
