@@ -11,8 +11,8 @@ import java.util.Arrays;
 
 public class Island {
 
-    Tile centre_tile;
-    Tile clicked_tile;
+    public Tile centre_tile;
+    public Tile clicked_tile;
 
     // CHUNKS TODO: Add multiple chunks
     // public Map<Integer, ArrayList<Chunk> chunks = new Map<Integer, ArrayList<Chunk>();

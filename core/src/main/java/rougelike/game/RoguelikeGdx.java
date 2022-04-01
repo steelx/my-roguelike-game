@@ -23,14 +23,11 @@ public class RoguelikeGdx extends ApplicationAdapter {
 	private Control control;
 	private int displayW, displayH;
 
-	// Temp
-	int x,y;
-
-	// Movement
-	int direction_x, direction_y, speed = 3;
-
 	// Island
 	Island island;
+
+	// Entities
+	Hero hero;
 
 
 	@Override
@@ -55,6 +52,7 @@ public class RoguelikeGdx extends ApplicationAdapter {
 		Media.load_assets();
 
 		island = new Island();
+		hero = new Hero(island.centre_tile.pos);
 	}
 
 	@Override
@@ -62,19 +60,13 @@ public class RoguelikeGdx extends ApplicationAdapter {
 		ScreenUtils.clear(new Color(0x30346DFF));
 
 		// GAME LOGIC
-		direction_x = 0;
-		direction_y = 0;
+		hero.update(control);
 
-		if(control.down) direction_y = -1;
-		if(control.up) direction_y = 1;
-		if(control.right) direction_x = 1;
-		if(control.left) direction_x = -1;
-
-		camera.position.x += direction_x * speed;
-		camera.position.y += direction_y * speed;
+		camera.position.x = hero.pos.x;
+		camera.position.y = hero.pos.y;
+		camera.update();
 
 		// GAME DRAW
-		camera.update();
 		batch.setProjectionMatrix(camera.combined);// draw only visible in camera
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -90,6 +82,8 @@ public class RoguelikeGdx extends ApplicationAdapter {
 				}
 			}
 		}
+
+		hero.draw(batch);
 
 		batch.end();
 	}

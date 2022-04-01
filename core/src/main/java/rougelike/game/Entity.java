@@ -13,6 +13,9 @@ public class Entity{
     public float width;
     public float height;
 
+    float dir_x = 0;
+    float dir_y = 0;
+
     public Entity() {
         this.pos = new Vector2();
     }
