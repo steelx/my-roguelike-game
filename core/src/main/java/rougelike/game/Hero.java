@@ -1,11 +1,16 @@
 package rougelike.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import rougelike.game.Enums.*;
+import rougelike.game.box2d.Box2DHelper;
+import rougelike.game.box2d.Box2DWorld;
 
 public class Hero extends Entity {
+    Body body;
 
-    public Hero(Vector2 position) {
+    public Hero(Vector2 position, Box2DWorld box2DWorld) {
         entity_type = ENTITY_TYPE.HERO;
         height = 8;
         width = 8;
@@ -14,7 +19,13 @@ public class Hero extends Entity {
         pos.y = position.y;
         pos3.y = position.y;
         texture = Media.hero;
-        speed = 0.5f;
+        speed = 6f;
+        body = Box2DHelper.createBody(
+                box2DWorld.world,
+                width, height/2,
+                pos3,
+                BodyDef.BodyType.DynamicBody
+        );
     }
 
     public void update(Control control) {
@@ -26,8 +37,11 @@ public class Hero extends Entity {
         if (control.left) dir_x = -1;
         if (control.right) dir_x = 1;
 
-        pos.x += dir_x * speed;
-        pos.y += dir_y * speed;
+        body.setLinearVelocity(dir_x*speed, dir_y*speed);
+
+        Vector2 p = body.getPosition();
+        pos.x = p.x - width/2;
+        pos.y = p.y - height/2;
 
         pos3.x = pos.x;
         pos3.y = pos.y;

@@ -57,7 +57,7 @@ public class RoguelikeGdx extends ApplicationAdapter {
 
 		box2DWorld = new Box2DWorld();
 		island = new Island(box2DWorld);
-		hero = new Hero(island.centre_tile.pos);
+		hero = new Hero(island.centre_tile.pos, box2DWorld);
 	}
 
 	@Override
