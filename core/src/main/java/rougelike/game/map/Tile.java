@@ -17,6 +17,8 @@ public class Tile extends Entity {
         super();// calls Entity class
         pos.x = x*size;
         pos.y = y*size;
+        pos3.x = pos.x;
+        pos3.y = pos.y;
         this.size = size;
         this.texture = texture;
         this.type = type;
@@ -38,23 +40,30 @@ public class Tile extends Entity {
                 '}';
     }
 
-    public boolean is_grass() {
+    public boolean isGrass() {
         return type == TILE_TYPE.GRASS;
     }
 
-    public boolean is_water() {
+    public boolean isWater() {
         return type == TILE_TYPE.WATER;
     }
 
-    public boolean is_cliff() {
+    public boolean isCliff() {
         return type == TILE_TYPE.CLIFF;
     }
 
-    public boolean is_passable() {
-        return !is_water() && !is_cliff();
+    public boolean isPassable() {
+        return !isWater() && !isCliff();
     }
 
-    public boolean is_not_passable() {
-        return !is_passable();
+    public boolean isNotPassable() {
+        return !isPassable();
+    }
+
+    public boolean isAllWater() {
+        return code.equals("000000000");
+    }
+    public boolean isNotAllWater() {
+        return !isAllWater();
     }
 }

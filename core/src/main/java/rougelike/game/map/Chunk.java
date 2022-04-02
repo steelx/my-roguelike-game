@@ -38,10 +38,10 @@ public class Chunk {
 
             if(chunk_row != null && chunk_row.size() > col && col >= 0){
                 Tile tile = chunk_row.get(col);
-                return tile.is_grass() ? "1" : "0";
+                return tile.isGrass() ? "1" : "0";
             }
         }
-        return null;
+        return "0";
     }
 
 }

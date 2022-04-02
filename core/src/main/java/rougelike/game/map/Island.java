@@ -2,9 +2,13 @@ package rougelike.game.map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import rougelike.game.Entity;
 import rougelike.game.Enums;
 import rougelike.game.Media;
+import rougelike.game.box2d.Box2DHelper;
+import rougelike.game.box2d.Box2DWorld;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,9 +52,31 @@ public class Island {
     String[] a_grass_top_right = {"000000100"};
     String[] a_grass_top_left = {"000000001"};
 
-    public Island(){
+    public Island(Box2DWorld box2DWorld){
         setup_tiles();
         code_tiles();
+        generateHitBoxes(box2DWorld);
+    }
+
+    /*
+    * Looping all of the tiles and checking that they are not passable
+    * but not all water we are finding the edge of the island,
+    * these are the tiles that should stop the hero moving
+    * */
+    private void generateHitBoxes(Box2DWorld box2DWorld) {
+        for (ArrayList<Tile> row: chunk.tiles) {
+            for (Tile tile: row) {
+                if (tile.isNotPassable() && tile.isNotAllWater()) {
+                    Box2DHelper.createBody(
+                        box2DWorld.world,
+                        chunk.tile_size,
+                        chunk.tile_size,
+                        tile.pos3,
+                        BodyDef.BodyType.StaticBody
+                    );
+                }
+            }
+        }
     }
 
     private void setup_tiles(){

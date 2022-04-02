@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import rougelike.game.box2d.Box2DWorld;
 import rougelike.game.map.Island;
 import rougelike.game.map.Tile;
 
@@ -28,6 +29,9 @@ public class RoguelikeGdx extends ApplicationAdapter {
 
 	// Entities
 	Hero hero;
+
+	// Box2D
+	Box2DWorld box2DWorld;
 
 
 	@Override
@@ -51,7 +55,8 @@ public class RoguelikeGdx extends ApplicationAdapter {
 		// Load Assets
 		Media.load_assets();
 
-		island = new Island();
+		box2DWorld = new Box2DWorld();
+		island = new Island(box2DWorld);
 		hero = new Hero(island.centre_tile.pos);
 	}
 
@@ -85,6 +90,9 @@ public class RoguelikeGdx extends ApplicationAdapter {
 		hero.draw(batch);
 
 		batch.end();
+
+		// tick
+		box2DWorld.tick(camera, control);
 	}
 
 	@Override

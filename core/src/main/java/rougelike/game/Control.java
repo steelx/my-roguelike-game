@@ -115,6 +115,7 @@ public class Control extends InputAdapter implements InputProcessor {
                 break;
             case Keys.BACKSPACE:
                 debug = !debug;
+                System.out.println("Debug mode: "+ debug);
                 break;
         }
         return false;
