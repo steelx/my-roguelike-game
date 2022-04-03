@@ -28,6 +28,7 @@ public class Control extends InputAdapter implements InputProcessor {
 
     // DEBUG
     public boolean debug;
+    public boolean reset;
 
     // SCREEN
     int screen_width;
@@ -38,6 +39,7 @@ public class Control extends InputAdapter implements InputProcessor {
         this.screen_width = screen_width;
         this.screen_height = screen_height;
         this.debug = false;
+        this.reset = false;
     }
 
     private void setMouseClickedPos(int screenX, int screenY){
@@ -78,6 +80,9 @@ public class Control extends InputAdapter implements InputProcessor {
                 break;
             case Keys.D:
                 right = true;
+                break;
+            case Keys.R:
+                reset = true;
                 break;
         }
         return false;

@@ -11,7 +11,7 @@ public class Media {
     public static Texture grass_top, grass_top_right, grass_top_left;
     public static Texture water_01, water_02, water_03, water_04;
     public static Texture cliff, water;
-    public static Texture hero;
+    public static Texture hero, tree;
 
     public static void load_assets(){
         // Source https://opengameart.org/content/micro-tileset-overworld-and-dungeon
@@ -37,7 +37,8 @@ public class Media {
         water_03 = new Texture("8x8/water/water_03.png");
         water_04 = new Texture("8x8/water/water_04.png");
         cliff    = new Texture("8x8/cliff.png");
-        hero    = new Texture("entities/hero/hero.png");
+        hero = new Texture("entities/hero/hero.png");
+        tree = new Texture("entities/tree.png");
     }
 
     public void dispose() {
@@ -57,5 +58,7 @@ public class Media {
         water_03.dispose();
         water_04.dispose();
         cliff.dispose();
+        hero.dispose();
+        tree.dispose();
     }
 }

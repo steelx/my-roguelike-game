@@ -1,30 +1,37 @@
-package rougelike.game;
+package rougelike.game.entities;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import rougelike.game.Control;
 import rougelike.game.Enums.*;
+import rougelike.game.Media;
 import rougelike.game.box2d.Box2DHelper;
 import rougelike.game.box2d.Box2DWorld;
 
 public class Hero extends Entity {
-    Body body;
 
-    public Hero(Vector2 position, Box2DWorld box2DWorld) {
+    public Hero(Vector3 position, Box2DWorld box2DWorld) {
         entity_type = ENTITY_TYPE.HERO;
         height = 8;
         width = 8;
-        pos.x = position.x;
-        pos3.x = position.x;
-        pos.y = position.y;
-        pos3.y = position.y;
         texture = Media.hero;
-        speed = 6f;
+        speed = 7.7f;
+        pos.set(position);
         body = Box2DHelper.createBody(
-                box2DWorld.world,
-                width, height/2,
-                pos3,
-                BodyDef.BodyType.DynamicBody
+            box2DWorld.world,
+            width/2, height/2,
+            0, height/4, pos,
+            BodyDef.BodyType.DynamicBody
+        );
+    }
+
+    public void reset(Vector3 position, Box2DWorld box2d) {
+        pos.set(position);
+        body = Box2DHelper.createBody(
+            box2d.world,
+            width/2, height/2,
+            width/4, 0, pos,
+            BodyDef.BodyType.DynamicBody
         );
     }
 
@@ -39,12 +46,8 @@ public class Hero extends Entity {
 
         body.setLinearVelocity(dir_x*speed, dir_y*speed);
 
-        Vector2 p = body.getPosition();
-        pos.x = p.x - width/2;
-        pos.y = p.y - height/2;
-
-        pos3.x = pos.x;
-        pos3.y = pos.y;
+        pos.x = body.getPosition().x - width/2;
+        pos.y = body.getPosition().y - height/2;
     }
 
     public float getCenterX() {

@@ -4,32 +4,32 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import rougelike.game.Entity;
+import rougelike.game.entities.Entity;
 import rougelike.game.Enums;
 import rougelike.game.Media;
 import rougelike.game.box2d.Box2DHelper;
 import rougelike.game.box2d.Box2DWorld;
+import rougelike.game.entities.Tree;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Island {
 
-    public Tile centre_tile;
-    public Tile clicked_tile;
+    public Tile centerTile;
+    public Tile clickedTile;
 
     // CHUNKS TODO: Add multiple chunks
     // public Map<Integer, ArrayList<Chunk> chunks = new Map<Integer, ArrayList<Chunk>();
 
     // ONE CHUNK
     public Chunk chunk;
-    ArrayList<Entity> entities = new ArrayList<>();
+    public ArrayList<Entity> entities = new ArrayList<>();
 
     // TRACK CLICK
     int current_tile_no;
     int current_col;
     int current_row;
-
 
 
     // Creating a code to describe a tiles neighbours allows us to make graphic and logic decisions.
@@ -53,9 +53,16 @@ public class Island {
     String[] a_grass_top_left = {"000000001"};
 
     public Island(Box2DWorld box2DWorld){
+        reset(box2DWorld);
+    }
+
+    public void reset(Box2DWorld box2DWorld) {
+        entities.clear();
+        box2DWorld.clearAllBodies();
         setup_tiles();
         code_tiles();
         generateHitBoxes(box2DWorld);
+        addEntities(box2DWorld);
     }
 
     /*
@@ -71,7 +78,7 @@ public class Island {
                         box2DWorld.world,
                         chunk.tile_size,
                         chunk.tile_size,
-                        tile.pos3,
+                        0,0,tile.pos,
                         BodyDef.BodyType.StaticBody
                     );
                 }
@@ -154,7 +161,7 @@ public class Island {
         }
 
         // Set centre tile for camera positioning
-        centre_tile = chunk.get_tile(centre_tile_row, centre_tile_col);
+        centerTile = chunk.get_tile(centre_tile_row, centre_tile_col);
     }
 
     private void update_image(Tile tile) {
@@ -246,6 +253,23 @@ public class Island {
                 }
             }
         }
+    }
+
+    void addEntities(Box2DWorld box2DWorld) {
+        // Loop all tiles and add random trees
+        for (ArrayList<Tile> row: chunk.tiles) {
+            for (Tile tile: row) {
+                if (tile.isGrass()) {
+                    if (MathUtils.random(100) > 90) {
+                        entities.add(new Tree(tile.pos, box2DWorld));
+                    }
+                }
+            }
+        }
+    }
+
+    public Vector3 getCenterTilePos() {
+        return centerTile.pos;
     }
 
     public void dispose() {

@@ -3,8 +3,8 @@ package rougelike.game.box2d;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import rougelike.game.Control;
 
 public class Box2DWorld {
@@ -26,5 +26,13 @@ public class Box2DWorld {
 
         world.step(Gdx.app.getGraphics().getDeltaTime(), 6, 2);
         world.clearForces();
+    }
+
+    public void clearAllBodies() {
+        Array<Body> bodies = new Array<>();
+        world.getBodies(bodies);
+        for(Body b: bodies){
+            world.destroyBody(b);
+        }
     }
 }

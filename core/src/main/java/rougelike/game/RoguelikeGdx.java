@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import rougelike.game.box2d.Box2DWorld;
+import rougelike.game.entities.Entity;
+import rougelike.game.entities.Hero;
 import rougelike.game.map.Island;
 import rougelike.game.map.Tile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class RoguelikeGdx extends ApplicationAdapter {
@@ -25,7 +28,7 @@ public class RoguelikeGdx extends ApplicationAdapter {
 	private int displayW, displayH;
 
 	// Island
-	Island island;
+	public Island island;
 
 	// Entities
 	Hero hero;
@@ -57,7 +60,8 @@ public class RoguelikeGdx extends ApplicationAdapter {
 
 		box2DWorld = new Box2DWorld();
 		island = new Island(box2DWorld);
-		hero = new Hero(island.centre_tile.pos, box2DWorld);
+		hero = new Hero(island.getCenterTilePos(), box2DWorld);
+		island.entities.add(hero);
 	}
 
 	@Override
@@ -65,10 +69,17 @@ public class RoguelikeGdx extends ApplicationAdapter {
 		ScreenUtils.clear(new Color(0x30346DFF));
 
 		// GAME LOGIC
+		if (control.reset) {
+			island.reset(box2DWorld);
+			hero.reset(island.getCenterTilePos(), box2DWorld);
+			island.entities.add(hero);
+			control.reset = false;
+		}
 		hero.update(control);
 
-		camera.position.lerp(hero.pos3, .1f);
+		camera.position.lerp(hero.pos, .1f);
 		camera.update();
+		Collections.sort(island.entities);
 
 		// GAME DRAW
 		batch.setProjectionMatrix(camera.combined);// draw only visible in camera
@@ -87,7 +98,10 @@ public class RoguelikeGdx extends ApplicationAdapter {
 			}
 		}
 
-		hero.draw(batch);
+		// Draw all entities e.g Tree, Hero
+		for(Entity e: island.entities){
+			e.draw(batch);
+		}
 
 		batch.end();
 

@@ -1,7 +1,7 @@
 package rougelike.game.map;
 
 import com.badlogic.gdx.graphics.Texture;
-import rougelike.game.Entity;
+import rougelike.game.entities.Entity;
 import rougelike.game.Enums.*;
 
 public class Tile extends Entity {
@@ -17,8 +17,6 @@ public class Tile extends Entity {
         super();// calls Entity class
         pos.x = x*size;
         pos.y = y*size;
-        pos3.x = pos.x;
-        pos3.y = pos.y;
         this.size = size;
         this.texture = texture;
         this.type = type;
